@@ -2,27 +2,31 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+type Query {
+  character(id: ID!): Character
+  pogues: [Character]!
+  kooks: [Character]!
+}
+type Mutation {
+  upsertCharacter(input: CharacterInput!): Character!
 }
 
-type User {
+enum CliqueType {
+  "People who are elite with parents having money"
+  KOOKS
+  "People who desperate to move up the social ladder to become new versions of themselves and establish new beginnings"
+  POGUES
+}
+
+type Character {
   id: ID!
   name: String!
+  isHero: Boolean!
+  cliqueType: CliqueType!
 }
-
-type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
-type Mutation {
-  createTodo(input: NewTodo!): Todo!
+input CharacterInput {
+  name: String!
+  id: String
+  isHero: Boolean
+  cliqueType: CliqueType!
 }
